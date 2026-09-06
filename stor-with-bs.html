@@ -68,19 +68,10 @@
     let cart = JSON.parse(localStorage.getItem("cart")) || [];
     select.onchange=function()
     {
-    //    if(select.value==="all")
-    //      {showproduct(allproducts);}
-    //    else{
-    //    let result=allproducts.filter(function(item)
-    //{return item.category===select.value});
-    //showproduct(result);
-   // }
     filterproducts();
     }
     search.oninput=function()
     {
-   // { let result=allproducts.filter(function(item){return item.title.toLowerCase().includes(search.value.toLowerCase());});
-   // showproduct(result);
    filterproducts();
    }
     async function getproduct()
@@ -92,27 +83,6 @@
         let data=await response.json();
         allproducts=data.products;
         showproduct(data.products);
-   //     loading.textContent="";
-   //     if(data.length===0){products.textContent="اطلاعات برای نمایش وجود ندارد";}
-   //     for(let i=0;i<data.length;i++)
-   // {
-   //   let card=document.createElement("div");
-   //   card.className="card";
-   //   let name=document.createElement("h3");
-   //   name.textContent=data[i].title;
-   //   card.appendChild(name);
-   //   let price=document.createElement("p");
-   //   price.textContent=data[i].price;
-   //   card.appendChild(price);
-   //   let image=document.createElement("img");
-   //   image.src=data[i].image;
-   //   card.appendChild(image);
-   //   let btnadd=document.createElement("button");
-   //   btnadd.textContent="افزودن به سبد";
-   //   card.appendChild(btnadd);
-   //   products.appendChild(card);
-   // }
-       // console.log(data);
        }//end of try
         catch(error)
         {console.log(error);
@@ -160,7 +130,7 @@
       image.style.objectFit="contain";
       card.appendChild(image);
       let btnadd=document.createElement("button");
-      btnadd.textContent="افزودن به سبد";
+      btnadd.textContent="  افزودن به سبدخرید";
       btnadd.className="btn btn-primary w-100";
       card.appendChild(btnadd);
       btnadd.onclick=function()

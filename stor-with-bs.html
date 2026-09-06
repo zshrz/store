@@ -1,0 +1,249 @@
+<html>
+    <head>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
+    </head>
+    <body>
+        <div class="container my-4">
+
+    <div class="text-center mb-4">
+        <h1 class="fw-bold">🛍️ فروشگاه محصولات</h1>
+        <p class="text-muted">محصول مورد نظرت رو پیدا کن</p>
+    </div>
+
+    <div class="row g-3 mb-4">
+
+        <div class="col-md-8">
+            <input
+                id="search"
+                type="text"
+                class="form-control"
+                placeholder="🔍 جستجوی محصول..."
+            >
+        </div>
+
+        <div class="col-md-4">
+            <select id="select" class="form-select">
+                <option value="all">همه محصولات</option>
+                <option value="beauty">زیبایی</option>
+                <option value="fragrances">عطر</option>
+                <option value="furniture">مبلمان</option>
+                <option value="groceries">مواد غذایی</option>
+                <option value="laptops">لپ‌تاپ</option>
+                <option value="mens-shoes">کفش مردانه</option>
+                <option value="mens-watches">ساعت مردانه</option>
+                <option value="smartphones">موبایل</option>
+                <option value="sunglasses">عینک آفتابی</option>
+                <option value="tablets">تبلت</option>
+                <option value="tops">لباس</option>
+                <option value="womens-bags">کیف زنانه</option>
+                <option value="womens-dresses">لباس زنانه</option>
+                <option value="womens-shoes">کفش زنانه</option>
+                <option value="womens-watches">ساعت زنانه</option>
+            </select>
+        </div>
+
+    </div>
+
+</div>
+        <div id="loading"></div>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-9">
+                      <div id="products" class="row g-4"></div>
+                </div>
+                <div class="col-md-3">
+                    <h2 class="fw-bold mb-4">🛒 سبد خرید</h2>
+                     <div id="cart"></div>
+                </div>
+            </div>
+        </div>
+                <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    let search=document.getElementById("search");
+    let loading=document.getElementById("loading");
+    let products=document.getElementById("products");
+    let select=document.getElementById("select");
+    let cartelement=document.getElementById("cart");
+    let allproducts=[];
+    let cart = JSON.parse(localStorage.getItem("cart")) || [];
+    select.onchange=function()
+    {
+    //    if(select.value==="all")
+    //      {showproduct(allproducts);}
+    //    else{
+    //    let result=allproducts.filter(function(item)
+    //{return item.category===select.value});
+    //showproduct(result);
+   // }
+    filterproducts();
+    }
+    search.oninput=function()
+    {
+   // { let result=allproducts.filter(function(item){return item.title.toLowerCase().includes(search.value.toLowerCase());});
+   // showproduct(result);
+   filterproducts();
+   }
+    async function getproduct()
+    {
+      try{loading.textContent="در حال دریافت اطلاعات..."
+        let response=await fetch("https://dummyjson.com/products");
+        if(response.ok===false)
+        {throw new Error("خطا در دریافت اطلاعات");}
+        let data=await response.json();
+        allproducts=data.products;
+        showproduct(data.products);
+   //     loading.textContent="";
+   //     if(data.length===0){products.textContent="اطلاعات برای نمایش وجود ندارد";}
+   //     for(let i=0;i<data.length;i++)
+   // {
+   //   let card=document.createElement("div");
+   //   card.className="card";
+   //   let name=document.createElement("h3");
+   //   name.textContent=data[i].title;
+   //   card.appendChild(name);
+   //   let price=document.createElement("p");
+   //   price.textContent=data[i].price;
+   //   card.appendChild(price);
+   //   let image=document.createElement("img");
+   //   image.src=data[i].image;
+   //   card.appendChild(image);
+   //   let btnadd=document.createElement("button");
+   //   btnadd.textContent="افزودن به سبد";
+   //   card.appendChild(btnadd);
+   //   products.appendChild(card);
+   // }
+       // console.log(data);
+       }//end of try
+        catch(error)
+        {console.log(error);
+            loading.textContent="";
+         products.textContent="دریافت اطلاعات با مشکل مواجه شد";
+        }
+    }
+    getproduct();
+
+    function filterproducts()
+    {
+    let result;
+    if(select.value==="all")
+    {     result=allproducts.filter(function(item){return item.title.toLowerCase().includes(search.value.toLowerCase());});
+    }
+    else{
+        result=allproducts.filter(function(item)
+    {return item.category===select.value && item.title.toLowerCase().includes(search.value.toLowerCase());});
+    }
+    showproduct(result);
+    }//end of filterproducts()
+
+
+    function showproduct(data)
+    {
+              loading.textContent="";
+             products.textContent="";
+        if(data.length===0){products.textContent="اطلاعات برای نمایش وجود ندارد";}
+        for(let i=0;i<data.length;i++)
+    {
+      let card=document.createElement("div");
+      card.className="card h-100 shadow-sm border-0 rounded-4 overflow-hidden";
+      let name=document.createElement("h5");
+      name.className="card-title px-3";
+      name.textContent=data[i].title;
+      card.appendChild(name);
+      let price=document.createElement("p");
+      price.className="fw-bold fs-5 mb-3";
+      price.textContent=data[i].price + "$";
+      card.appendChild(price);
+      let image=document.createElement("img");
+      image.src=data[i].images[0];
+      image.className="card-img-top p-3";
+      image.style.height="220 px";
+      image.style.objectFit="contain";
+      card.appendChild(image);
+      let btnadd=document.createElement("button");
+      btnadd.textContent="افزودن به سبد";
+      btnadd.className="btn btn-primary w-100";
+      card.appendChild(btnadd);
+      btnadd.onclick=function()
+      { let existing=cart.find(function(item)
+    {return item.id===data[i].id;});
+    if (existing){existing.count++;}
+    else{
+        let newproduct={...data[i],count:1 }//spread oprator
+        cart.push(newproduct);
+       // console.log(cart);
+    }
+        showcart();
+      
+    }
+      let col=document.createElement("div");
+      col.className="col-md-4";
+      col.appendChild(card);
+      products.appendChild(col);
+    }
+    }
+
+
+    function showcart()
+    {
+        localStorage.setItem("cart",JSON.stringify(cart));
+        console.log("برنامه اجرا شد...");
+        cartelement.textContent="";
+        console.log(cartelement);
+        console.log(cart.length);
+        let total=0;
+        if(cart.length===0)
+        {cartelement.textContent="سبد خرید خالی است";}
+        else{
+        for(let i=0;i<cart.length;i++)
+    {
+      let name=document.createElement("h3");
+      name.className="card-title fs-6 fw-bold mb-2"; 
+      name.textContent=cart[i].title;
+      cartelement.appendChild(name);
+      let price=document.createElement("p");
+      price.className="fw-bold mb-2";
+      price.textContent=cart[i].price + "$";
+      cartelement.appendChild(price);
+      let count=document.createElement("p");
+      count.className="mb-2";
+      count.textContent="تعداد:"+ cart[i].count;
+      cartelement.appendChild(count);
+      let btnplus=document.createElement("button");
+      btnplus.className="btn btn-outline-primary btn-sm me-2";
+      btnplus.textContent="+";
+      cartelement.appendChild(btnplus);
+      btnplus.onclick=function()
+      {
+        cart[i].count++;
+        showcart();
+      }
+      let btnminus=document.createElement("button");
+      btnminus.className="btn btn-outline-primary btn-sm me-2";
+      btnminus.textContent="-";
+      cartelement.appendChild(btnminus);
+      btnminus.onclick=function()
+      {
+        if(cart[i].count>1)
+      {cart[i].count--;}
+      showcart();
+      }
+      let btndel=document.createElement("button");
+      btndel.className="btn btn-outline-danger btn-sm me-2";
+      btndel.textContent="حذف";
+      cartelement.appendChild(btndel);
+      btndel.onclick=function()
+      {
+        cart.splice(i,1);
+        showcart();
+      }
+      total+=cart[i].price*cart[i].count;
+    }
+    let totaltext=document.createElement("h3");
+    totaltext.className="fw-bold mt-4";
+    totaltext.textContent="مبلغ کل :  "+total;
+    cartelement.appendChild(totaltext);
+    }
+}
+</script>
+    </body>
+</html>

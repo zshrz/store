@@ -1,0 +1,175 @@
+<html>
+    <head>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
+    </head>
+    <body>
+     <div class="container">
+        <div class="card">
+            <input type="text" class="form-control mb-2" id="display">
+            <div class="row g-2 mb-3">
+           <div class="col"> 
+            <button class="btn btn-secondary w-100" id="btn7">7</button>
+           </div>
+            <div class="col"> 
+            <button class="btn btn-secondary w-100" id="btn8">8</button>
+            </div>
+            <div class="col">
+            <button class="btn btn-secondary w-100" id="btn9">9</button>
+            </div>
+            <div class="col">
+            <button class="btn btn-warning w-100" id="btndiv">/</button>
+            </div>
+            </div>
+            <div class="row g-2 mb-3">
+           <div class="col"> 
+            <button class="btn btn-secondary w-100" id="btn4">4</button>
+           </div>
+            <div class="col"> 
+            <button class="btn btn-secondary w-100" id="btn5">5</button>
+            </div>
+            <div class="col">
+            <button class="btn btn-secondary w-100" id="btn6">6</button>
+            </div>
+            <div class="col">
+            <button class="btn btn-warning w-100" id="btnmul">*</button>
+            </div>
+            </div>
+                    <div class="row g-2 mb-3">
+           <div class="col"> 
+            <button class="btn btn-secondary w-100" id="btn1">1</button>
+           </div>
+            <div class="col"> 
+            <button class="btn btn-secondary w-100" id="btn2">2</button>
+            </div>
+            <div class="col">
+            <button class="btn btn-secondary w-100" id="btn3">3</button>
+            </div>
+            <div class="col">
+            <button class="btn btn-warning w-100" id="btnplus">+</button>
+            </div>
+            </div>
+                    <div class="row g-2">
+           <div class="col"> 
+            <button class="btn btn-secondary w-100" id="btn0">0</button>
+           </div>
+            <div class="col"> 
+            <button class="btn btn-danger w-100" id="btnc">c</button>
+            </div>
+            <div class="col">
+            <button class="btn btn-success w-100" id="btnequal">=</button>
+            </div>
+            <div class="col">
+            <button class="btn btn-warning w-100" id="btnminus">-</button>
+            </div>
+            </div>
+    
+        </div>
+     </div>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
+        <script>
+         let display=document.getElementById("display");
+         let btn0=document.getElementById("btn0");
+         let btn1=document.getElementById("btn1");
+         let btn2=document.getElementById("btn2");
+         let btn3=document.getElementById("btn3");
+         let btn4=document.getElementById("btn4");
+         let btn5=document.getElementById("btn5");
+         let btn6=document.getElementById("btn6");
+         let btn7=document.getElementById("btn7");
+         let btn8=document.getElementById("btn8");
+         let btn9=document.getElementById("btn9");
+         let btnc=document.getElementById("btnc");
+         let btnplus=document.getElementById("btnplus");
+         let btnequal=document.getElementById("btnequal");
+         let btnminus=document.getElementById("btnminus");
+         let btnmul=document.getElementById("btnmul");
+         let btndiv=document.getElementById("btndiv");
+         let buttons=[btn0,btn1,btn2,btn3,btn4,btn5,btn6,btn7,btn8,btn9];
+         let operators=["+","-","*","/"];
+         let opbuttons=[btnplus,btnminus,btnmul,btndiv];
+         let firstnum;
+         let operator;
+         let isresult=false;
+        // btn0.onclick=function()
+        // {display.value=display.value+"0";}
+         //btn1.onclick=function()
+         //{display.value=display.value+"1";}
+        // btn2.onclick=function()
+      //   {display.value=display.value+"2";}
+      //   btn3.onclick=function()
+      //   {display.value=display.value+"3";}
+      //   btn4.onclick=function()
+      //   {display.value=display.value+"4";}
+       //  btn5.onclick=function()
+      //   {display.value=display.value+"5";}
+      //   btn6.onclick=function()
+      //   {display.value=display.value+"6";}
+      //   btn7.onclick=function()
+      //   {display.value=display.value+"7";}
+      //   btn8.onclick=function()
+      //   {display.value=display.value+"8";}
+      //   btn9.onclick=function()
+      //   {display.value=display.value+"9";}
+      function addtodisplay(number)
+      {   if(isresult)
+      {display.value="";
+         isresult=false;
+      }
+         display.value=display.value+number;
+
+      }
+      for(let i=0;i<buttons.length;i++)
+      {  buttons[i].onclick=function()
+         { addtodisplay(i);}}
+         btnc.onclick=function()
+         {display.value="";}
+        function calculate(a,b,op)
+         {if(op==="+")
+           { return a+b;}
+          else if(op==="-")
+          {return a-b;}
+          else if(op==="*")
+          {return a*b;}
+          else if(op==="/")
+          {if(b===0){return "تقسیم بر صفر مجاز نیست"}
+          return a/b;
+          }
+         }
+      //    btnplus.onclick=function()
+      //   {firstnum=Number(display.value);
+      //      operator="+";
+      //      display.value="";
+      //   }
+
+      //  btnminus.onclick=function()
+      //   {firstnum=Number(display.value);
+      //      operator="-";
+      //      display.value="";
+     //    }
+       //  btnmul.onclick=function()
+       //  {firstnum=Number(display.value);
+       //     operator="*";
+       //     display.value="";
+       //  }
+       //  btndiv.onclick=function()
+       //  {firstnum=Number(display.value);
+       //     operator="/";
+       //     display.value="";
+       //  }
+         btnequal.onclick=function()
+         {let secondnum=Number(display.value);
+            display.value=calculate(firstnum,secondnum,operator);
+            isresult=true;
+         }
+         for(let i=0;i<operators.length;i++)
+         {
+            opbuttons[i].onclick=function()
+           { operator=operators[i];
+            firstnum=Number(display.value);
+            display.value="";
+            isresult=false;
+           }
+         }
+        </script>
+    </body>
+</html>
